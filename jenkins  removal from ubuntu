@@ -1,0 +1,41 @@
+You can execute all the commands in a single bash script. Here's how you can do it:
+
+```bash
+#!/bin/bash
+
+# Stop Jenkins service
+sudo systemctl stop jenkins
+
+# Uninstall Jenkins package
+sudo apt-get remove --purge jenkins
+
+# Remove Jenkins configuration files
+sudo rm -rf /var/lib/jenkins
+sudo rm -rf /etc/default/jenkins
+
+# (Optional) Remove Jenkins user and group
+sudo deluser jenkins
+sudo delgroup jenkins
+
+# (Optional) Clean up dependencies
+sudo apt-get autoremove
+
+# Verify Jenkins removal
+dpkg -l | grep jenkins   # Check if Jenkins package is listed
+ls /var/lib/jenkins       # Check if Jenkins data directory is empty
+sudo systemctl status jenkins  # Check if Jenkins service is inactive
+```
+
+Save the above script into a file, for example, `uninstall_jenkins.sh`, then make it executable with:
+
+```bash
+chmod +x uninstall_jenkins.sh
+```
+
+Finally, execute the script with:
+
+```bash
+./uninstall_jenkins.sh
+```
+
+This script will execute each command in sequence to completely uninstall Jenkins from your Ubuntu system.
